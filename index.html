@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estudio de 1 Juan</title>
+<meta name="description" content="Cuestionario de 1 Juan capítulos 1 al 5 (Reina-Valera 1960) con respuestas, versículo textual y contexto para el evaluador.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&family=Lora:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b1020; --panel:#121a30; --panel2:#18223d; --line:#26324f;
+  --text:#e8ecf6; --muted:#97a3c0; --gold:#f5a623; --gold2:#ffcd6b;
+  --ok:#22c55e; --okbg:rgba(34,197,94,.12); --bad:#ef4444; --badbg:rgba(239,68,68,.12);
+  --blue:#60a5fa; --bluebg:rgba(96,165,250,.10); --violet:#a78bfa; --violetbg:rgba(167,139,250,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 Inter,system-ui,sans-serif}
+button,input,select{font:inherit;color:inherit}
+header{position:sticky;top:0;z-index:20;background:rgba(11,16,32,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+.top{display:flex;align-items:center;gap:14px;padding:14px 0;flex-wrap:wrap}
+.logo{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--gold2),var(--gold) 50%,#c46d00);display:grid;place-items:center;font:700 18px Cinzel,serif;color:#2a1700;box-shadow:0 6px 20px rgba(245,166,35,.25);flex:none}
+.brand h1{margin:0;font:700 22px/1.1 Cinzel,serif;color:var(--gold2);letter-spacing:.5px}
+.brand p{margin:2px 0 0;color:var(--muted);font-size:12.5px}
+.modes{margin-left:auto;display:flex;gap:6px;background:var(--panel);border:1px solid var(--line);padding:5px;border-radius:12px}
+.modes button{border:0;background:transparent;padding:8px 14px;border-radius:9px;cursor:pointer;font-weight:600;font-size:14px;color:var(--muted)}
+.modes button.on{background:var(--gold);color:#241400}
+.filters{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;margin:20px 0 14px}
+.frow{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:10px}
+.frow input,.frow select{width:100%;background:#0a0f1e;border:1px solid var(--line);border-radius:10px;padding:10px 12px;outline:none}
+.frow input:focus,.frow select:focus{border-color:var(--gold)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.chip{font-size:12.5px;padding:4px 10px;border-radius:999px;border:1px solid rgba(245,166,35,.4);color:var(--gold2);background:rgba(245,166,35,.08)}
+.tool{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.btn{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:6px 12px;cursor:pointer;font-size:13px;font-weight:600}
+.btn:hover{border-color:var(--gold)}
+.notice{display:flex;gap:12px;border:1px solid rgba(245,166,35,.45);background:linear-gradient(90deg,rgba(245,166,35,.12),rgba(245,166,35,.03));border-radius:12px;padding:12px 16px;margin-bottom:18px;font-size:13.5px}
+.notice b{color:var(--gold2);display:block}
+.notice.exam{border-color:rgba(96,165,250,.45);background:linear-gradient(90deg,rgba(96,165,250,.12),rgba(96,165,250,.03))}
+.notice.exam b{color:var(--blue)}
+.score{display:none;gap:16px;font-weight:600;margin-left:auto;align-self:center;white-space:nowrap}
+body.examen .score{display:flex}
+.score .ok{color:var(--ok)}.score .bad{color:var(--bad)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:14px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px;font-size:12px}
+.num{font:700 13px Cinzel,serif;color:var(--gold);margin-right:4px}
+.tag{padding:2px 9px;border-radius:999px;background:var(--panel2);border:1px solid var(--line);color:var(--muted)}
+.tag.t{color:var(--gold2);border-color:rgba(245,166,35,.35)}
+.q{font-size:17px;font-weight:600;margin:0 0 12px}
+.opts{display:grid;gap:8px;margin-bottom:12px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;background:#0d1426;border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:default;width:100%}
+.opt .l{font-weight:700;color:var(--muted);flex:none;width:18px}
+body.examen .opt{cursor:pointer}
+body.examen .opt:hover{border-color:var(--blue)}
+body.evaluador .opt.correct,.card.done .opt.correct{border-color:var(--ok);background:var(--okbg)}
+body.evaluador .opt.correct .l,.card.done .opt.correct .l{color:var(--ok)}
+.card.done .opt.picked:not(.correct){border-color:var(--bad);background:var(--badbg)}
+.card.done .opt{cursor:default}
+.ans{display:none}
+body.evaluador .ans,.card.done .ans{display:block}
+.box{border-radius:10px;padding:11px 14px;margin-top:10px;font-size:14.5px}
+.box h4{margin:0 0 4px;font-size:11.5px;letter-spacing:.8px;text-transform:uppercase}
+.box.r{background:var(--okbg);border-left:3px solid var(--ok)}
+.box.r h4{color:var(--ok)}
+.box.r p{margin:0;font-weight:600}
+.box.v{background:var(--bluebg);border-left:3px solid var(--blue)}
+.box.v h4{color:var(--blue)}
+.box.v p{margin:4px 0 0;font:italic 15.5px/1.6 Lora,Georgia,serif}
+.box.v sup{font:600 11px Inter,sans-serif;color:var(--blue);margin-right:3px;font-style:normal}
+.box.c{background:var(--violetbg);border-left:3px solid var(--violet)}
+.box.c h4{color:var(--violet)}
+.box.c p{margin:0;color:#d6dbea}
+.reveal{display:none;margin-top:4px}
+body.examen .card:not(.done) .reveal{display:inline-block}
+.empty{text-align:center;color:var(--muted);padding:40px 0}
+footer{color:var(--muted);font-size:12px;text-align:center;padding:30px 16px 50px}
+.totop{position:fixed;right:18px;bottom:18px;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);cursor:pointer;font-size:18px}
+@media (max-width:720px){
+  .frow{grid-template-columns:1fr}
+  .modes{margin-left:0;width:100%}
+  .modes button{flex:1;padding:8px 6px;font-size:13px}
+  .brand h1{font-size:18px}
+  .q{font-size:16px}
+  .card{padding:16px}
+}
+@media print{
+  header,.filters,.notice,.totop,.reveal{display:none!important}
+  body{background:#fff;color:#000}
+  .card{border:1px solid #bbb;break-inside:avoid;background:#fff}
+  .ans{display:block!important}
+  .box,.opt{background:#fff!important;color:#000}
+}
+</style>
+</head>
+<body class="evaluador">
+<header>
+  <div class="wrap top">
+    <div class="logo">1J</div>
+    <div class="brand">
+      <h1>1 Juan (Capítulos 1 – 5)</h1>
+      <p>Guía del evaluador y cuestionario interactivo · Reina-Valera 1960</p>
+    </div>
+    <div class="modes">
+      <button id="mEval" class="on">Modo evaluador</button>
+      <button id="mExam">Modo examen</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="filters">
+    <div class="frow">
+      <input id="fSearch" type="search" placeholder="Buscar palabra clave o versículo (ej. 4:8, luz, anticristo)">
+      <select id="fCap">
+        <option value="">Todos los capítulos (1–5)</option>
+        <option value="0">Preguntas generales</option>
+        <option value="1">Capítulo 1</option>
+        <option value="2">Capítulo 2</option>
+        <option value="3">Capítulo 3</option>
+        <option value="4">Capítulo 4</option>
+        <option value="5">Capítulo 5</option>
+      </select>
+      <select id="fType"><option value="">Todos los tipos de pregunta</option></select>
+    </div>
+    <div class="chips">
+      <span class="chip" id="count">Cargando preguntas…</span>
+      <div class="score"><span class="ok" id="sOk">✔ 0</span><span class="bad" id="sBad">✘ 0</span></div>
+      <div class="tool">
+        <button class="btn" id="bShuffle">Barajar</button>
+        <button class="btn" id="bOrder">Orden original</button>
+        <button class="btn" id="bReset">Reiniciar</button>
+        <button class="btn" onclick="window.print()">Imprimir</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="notice" id="notice"></div>
+  <div id="list"></div>
+</main>
+
+<footer>Texto bíblico: Reina-Valera 1960 © Sociedades Bíblicas en América Latina, 1960. Usado para estudio.</footer>
+<button class="totop" onclick="scrollTo(0,0)" aria-label="Subir">↑</button>
+
+<script>
+// Versículos citados (RVR1960)
+const V = {
+"1:1":"Lo que era desde el principio, lo que hemos oído, lo que hemos visto con nuestros ojos, lo que hemos contemplado, y palparon nuestras manos tocante al Verbo de vida",
+"1:2":"(porque la vida fue manifestada, y la hemos visto, y testificamos, y os anunciamos la vida eterna, la cual estaba con el Padre, y se nos manifestó);",
+"1:3":"lo que hemos visto y oído, eso os anunciamos, para que también vosotros tengáis comunión con nosotros; y nuestra comunión verdaderamente es con el Padre, y con su Hijo Jesucristo.",
+"1:4":"Estas cosas os escribimos, para que vuestro gozo sea cumplido.",
+"1:5":"Este es el mensaje que hemos oído de él, y os anunciamos: Dios es luz, y no hay ningunas tinieblas en él.",
+"1:6":"Si decimos que tenemos comunión con él, y andamos en tinieblas, mentimos, y no practicamos la verdad;",
+"1:7":"pero si andamos en luz, como él está en luz, tenemos comunión unos con otros, y la sangre de Jesucristo su Hijo nos limpia de todo pecado.",
+"1:8":"Si decimos que no tenemos pecado, nos engañamos a nosotros mismos, y la verdad no está en nosotros.",
+"1:9":"Si confesamos nuestros pecados, él es fiel y justo para perdonar nuestros pecados, y limpiarnos de toda maldad.",
+"1:10":"Si decimos que no hemos pecado, le hacemos a él mentiroso, y su palabra no está en nosotros.",
+"2:1":"Hijitos míos, estas cosas os escribo para que no pequéis; y si alguno hubiere pecado, abogado tenemos para con el Padre, a Jesucristo el justo.",
+"2:2":"Y él es la propiciación por nuestros pecados; y no solamente por los nuestros, sino también por los de todo el mundo.",
+"2:3":"Y en esto sabemos que nosotros le conocemos, si guardamos sus mandamientos.",
+"2:4":"El que dice: Yo le conozco, y no guarda sus mandamientos, el tal es mentiroso, y la verdad no está en él;",
+"2:5":"pero el que guarda su palabra, en éste verdaderamente el amor de Dios se ha perfeccionado; por esto sabemos que estamos en él.",
+"2:6":"El que dice que permanece en él, debe andar como él anduvo.",
+"2:7":"Hermanos, no os escribo mandamiento nuevo, sino el mandamiento antiguo que habéis tenido desde el principio; este mandamiento antiguo es la palabra que habéis oído desde el principio.",
+"2:8":"Sin embargo, os escribo un mandamiento nuevo, que es verdadero en él y en vosotros, porque las tinieblas van pasando, y la luz verdadera ya alumbra.",
+"2:9":"El que dice que está en la luz, y aborrece a su hermano, está todavía en tinieblas.",
+"2:10":"El que ama a su hermano, permanece en la luz, y en él no hay tropiezo.",
+"2:11":"Pero el que aborrece a su hermano está en tinieblas, y anda en tinieblas, y no sabe a dónde va, porque las tinieblas le han cegado los ojos.",
+"2:12":"Os escribo a vosotros, hijitos, porque vuestros pecados os han sido perdonados por su nombre.",
+"2:13":"Os escribo a vosotros, padres, porque conocéis al que es desde el principio. Os escribo a vosotros, jóvenes, porque habéis vencido al maligno. Os escribo a vosotros, hijitos, porque habéis conocido al Padre.",
+"2:14":"Os he escrito a vosotros, padres, porque habéis conocido al que es desde el principio. Os he escrito a vosotros, jóvenes, porque sois fuertes, y la palabra de Dios permanece en vosotros, y habéis vencido al maligno.",
+"2:15":"No améis al mundo, ni las cosas que están en el mundo. Si alguno ama al mundo, el amor del Padre no está en él.",
+"2:16":"Porque todo lo que hay en el mundo, los deseos de la carne, los deseos de los ojos, y la vanagloria de la vida, no proviene del Padre, sino del mundo.",
+"2:17":"Y el mundo pasa, y sus deseos; pero el que hace la voluntad de Dios permanece para siempre.",
+"2:18":"Hijitos, ya es el último tiempo; y según vosotros oísteis que el anticristo viene, así ahora han surgido muchos anticristos; por esto conocemos que es el último tiempo.",
+"2:19":"Salieron de nosotros, pero no eran de nosotros; porque si hubiesen sido de nosotros, habrían permanecido con nosotros; pero salieron para que se manifestase que no todos son de nosotros.",
+"2:20":"Pero vosotros tenéis la unción del Santo, y conocéis todas las cosas.",
+"2:22":"¿Quién es el mentiroso, sino el que niega que Jesús es el Cristo? Este es anticristo, el que niega al Padre y al Hijo.",
+"2:23":"Todo aquel que niega al Hijo, tampoco tiene al Padre. El que confiesa al Hijo, tiene también al Padre.",
+"2:25":"Y esta es la promesa que él nos hizo, la vida eterna.",
+"2:27":"Pero la unción que vosotros recibisteis de él permanece en vosotros, y no tenéis necesidad de que nadie os enseñe; así como la unción misma os enseña todas las cosas, y es verdadera, y no es mentira, según ella os ha enseñado, permaneced en él.",
+"2:28":"Y ahora, hijitos, permaneced en él, para que cuando se manifieste, tengamos confianza, para que en su venida no nos alejemos de él avergonzados.",
+"2:29":"Si sabéis que él es justo, sabed también que todo el que hace justicia es nacido de él.",
+"3:1":"Mirad cuál amor nos ha dado el Padre, para que seamos llamados hijos de Dios; por esto el mundo no nos conoce, porque no le conoció a él.",
+"3:2":"Amados, ahora somos hijos de Dios, y aún no se ha manifestado lo que hemos de ser; pero sabemos que cuando él se manifieste, seremos semejantes a él, porque le veremos tal como él es.",
+"3:3":"Y todo aquel que tiene esta esperanza en él, se purifica a sí mismo, así como él es puro.",
+"3:4":"Todo aquel que comete pecado, infringe también la ley; pues el pecado es infracción de la ley.",
+"3:5":"Y sabéis que él apareció para quitar nuestros pecados, y no hay pecado en él.",
+"3:6":"Todo aquel que permanece en él, no peca; todo aquel que peca, no le ha visto, ni le ha conocido.",
+"3:8":"El que practica el pecado es del diablo; porque el diablo peca desde el principio. Para esto apareció el Hijo de Dios, para deshacer las obras del diablo.",
+"3:9":"Todo aquel que es nacido de Dios, no practica el pecado, porque la simiente de Dios permanece en él; y no puede pecar, porque es nacido de Dios.",
+"3:10":"En esto se manifiestan los hijos de Dios, y los hijos del diablo: todo aquel que no hace justicia, y que no ama a su hermano, no es de Dios.",
+"3:11":"Porque este es el mensaje que habéis oído desde el principio: Que nos amemos unos a otros.",
+"3:12":"No como Caín, que era del maligno y mató a su hermano. ¿Y por qué causa le mató? Porque sus obras eran malas, y las de su hermano justas.",
+"3:13":"Hermanos míos, no os extrañéis si el mundo os aborrece.",
+"3:14":"Nosotros sabemos que hemos pasado de muerte a vida, en que amamos a los hermanos. El que no ama a su hermano, permanece en muerte.",
+"3:15":"Todo aquel que aborrece a su hermano es homicida; y sabéis que ningún homicida tiene vida eterna permanente en él.",
+"3:16":"En esto hemos conocido el amor, en que él puso su vida por nosotros; también nosotros debemos poner nuestras vidas por los hermanos.",
+"3:17":"Pero el que tiene bienes de este mundo y ve a su hermano tener necesidad, y cierra contra él su corazón, ¿cómo mora el amor de Dios en él?",
+"3:18":"Hijitos míos, no amemos de palabra ni de lengua, sino de hecho y en verdad.",
+"3:19":"Y en esto conocemos que somos de la verdad, y aseguraremos nuestros corazones delante de él;",
+"3:20":"pues si nuestro corazón nos reprende, mayor que nuestro corazón es Dios, y él sabe todas las cosas.",
+"3:22":"y cualquiera cosa que pidiéremos la recibiremos de él, porque guardamos sus mandamientos, y hacemos las cosas que son agradables delante de él.",
+"3:23":"Y este es su mandamiento: Que creamos en el nombre de su Hijo Jesucristo, y nos amemos unos a otros como nos lo ha mandado.",
+"3:24":"Y el que guarda sus mandamientos, permanece en Dios, y Dios en él. Y en esto sabemos que él permanece en nosotros, por el Espíritu que nos ha dado.",
+"4:1":"Amados, no creáis a todo espíritu, sino probad los espíritus si son de Dios; porque muchos falsos profetas han salido por el mundo.",
+"4:2":"En esto conoced el Espíritu de Dios: Todo espíritu que confiesa que Jesucristo ha venido en carne, es de Dios;",
+"4:3":"y todo espíritu que no confiesa que Jesucristo ha venido en carne, no es de Dios; y este es el espíritu del anticristo, el cual vosotros habéis oído que viene, y que ahora ya está en el mundo.",
+"4:4":"Hijitos, vosotros sois de Dios, y los habéis vencido; porque mayor es el que está en vosotros, que el que está en el mundo.",
+"4:5":"Ellos son del mundo; por eso hablan del mundo, y el mundo los oye.",
+"4:6":"Nosotros somos de Dios; el que conoce a Dios, nos oye; el que no es de Dios, no nos oye. En esto conocemos el espíritu de verdad y el espíritu de error.",
+"4:7":"Amados, amémonos unos a otros; porque el amor es de Dios. Todo aquel que ama, es nacido de Dios, y conoce a Dios.",
+"4:8":"El que no ama, no ha conocido a Dios; porque Dios es amor.",
+"4:9":"En esto se mostró el amor de Dios para con nosotros, en que Dios envió a su Hijo unigénito al mundo, para que vivamos por él.",
+"4:10":"En esto consiste el amor: no en que nosotros hayamos amado a Dios, sino en que él nos amó a nosotros, y envió a su Hijo en propiciación por nuestros pecados.",
+"4:11":"Amados, si Dios nos ha amado así, debemos también nosotros amarnos unos a otros.",
+"4:12":"Nadie ha visto jamás a Dios. Si nos amamos unos a otros, Dios permanece en nosotros, y su amor se ha perfeccionado en nosotros.",
+"4:13":"En esto conocemos que permanecemos en él, y él en nosotros, en que nos ha dado de su Espíritu.",
+"4:14":"Y nosotros hemos visto y testificamos que el Padre ha enviado al Hijo, el Salvador del mundo.",
+"4:15":"Todo aquel que confiese que Jesús es el Hijo de Dios, Dios permanece en él, y él en Dios.",
+"4:16":"Y nosotros hemos conocido y creído el amor que Dios tiene para con nosotros. Dios es amor; y el que permanece en amor, permanece en Dios, y Dios en él.",
+"4:17":"En esto se ha perfeccionado el amor en nosotros, para que tengamos confianza en el día del juicio; pues como él es, así somos nosotros en este mundo.",
+"4:18":"En el amor no hay temor, sino que el perfecto amor echa fuera el temor; porque el temor lleva en sí castigo. De donde el que teme, no ha sido perfeccionado en el amor.",
+"4:19":"Nosotros le amamos a él, porque él nos amó primero.",
+"4:20":"Si alguno dice: Yo amo a Dios, y aborrece a su hermano, es mentiroso. Pues el que no ama a su hermano a quien ha visto, ¿cómo puede amar a Dios a quien no ha visto?",
+"4:21":"Y nosotros tenemos este mandamiento de él: El que ama a Dios, ame también a su hermano.",
+"5:1":"Todo aquel que cree que Jesús es el Cristo, es nacido de Dios; y todo aquel que ama al que engendró, ama también al que ha sido engendrado por él.",
+"5:2":"En esto conocemos que amamos a los hijos de Dios, cuando amamos a Dios, y guardamos sus mandamientos.",
+"5:3":"Pues este es el amor a Dios, que guardemos sus mandamientos; y sus mandamientos no son gravosos.",
+"5:4":"Porque todo lo que es nacido de Dios vence al mundo; y esta es la victoria que ha vencido al mundo, nuestra fe.",
+"5:5":"¿Quién es el que vence al mundo, sino el que cree que Jesús es el Hijo de Dios?",
+"5:6":"Este es Jesucristo, que vino mediante agua y sangre; no mediante agua solamente, sino mediante agua y sangre. Y el Espíritu es el que da testimonio; porque el Espíritu es la verdad.",
+"5:7":"Porque tres son los que dan testimonio en el cielo: el Padre, el Verbo y el Espíritu Santo; y estos tres son uno.",
+"5:8":"Y tres son los que dan testimonio en la tierra: el Espíritu, el agua y la sangre; y estos tres concuerdan.",
+"5:9":"Si recibimos el testimonio de los hombres, mayor es el testimonio de Dios; porque este es el testimonio con que Dios ha testificado acerca de su Hijo.",
+"5:10":"El que cree en el Hijo de Dios, tiene el testimonio en sí mismo; el que no cree a Dios, le ha hecho mentiroso, porque no ha creído en el testimonio que Dios ha dado acerca de su Hijo.",
+"5:11":"Y este es el testimonio: que Dios nos ha dado vida eterna; y esta vida está en su Hijo.",
+"5:12":"El que tiene al Hijo, tiene la vida; el que no tiene al Hijo de Dios no tiene la vida.",
+"5:13":"Estas cosas os he escrito a vosotros que creéis en el nombre del Hijo de Dios, para que sepáis que tenéis vida eterna, y para que creáis en el nombre del Hijo de Dios.",
+"5:14":"Y esta es la confianza que tenemos en él, que si pedimos alguna cosa conforme a su voluntad, él nos oye.",
+"5:15":"Y si sabemos que él nos oye en cualquiera cosa que pidamos, sabemos que tenemos las peticiones que le hayamos hecho.",
+"5:16":"Si alguno viere a su hermano cometer pecado que no sea de muerte, pedirá, y Dios le dará vida; esto es para los que cometen pecado que no sea de muerte. Hay pecado de muerte, por el cual yo no digo que se pida.",
+"5:17":"Toda injusticia es pecado; pero hay pecado no de muerte.",
+"5:18":"Sabemos que todo aquel que ha nacido de Dios, no practica el pecado, pues Aquel que fue engendrado por Dios le guarda, y el maligno no le toca.",
+"5:19":"Sabemos que somos de Dios, y el mundo entero está bajo el maligno.",
+"5:20":"Pero sabemos que el Hijo de Dios ha venido, y nos ha dado entendimiento para conocer al que es verdadero; y estamos en el verdadero, en su Hijo Jesucristo. Este es el verdadero Dios, y la vida eterna.",
+"5:21":"Hijitos, guardaos de los ídolos. Amén."
+};
+
+const TIPOS = {
+  om:"Opción múltiple", vf:"Verdadero o falso", ab:"Respuesta directa",
+  co:"Completa el versículo", cx:"Contexto / ¿Qué quiso decir Juan?", dd:"¿Dónde dice…?"
+};
+
+// c: capítulo (0 = general) · r: cita · t: tipo · q: pregunta · a: respuesta · o: opciones (la primera es la correcta) · x: contexto
+const Q = [
+// ── Generales ──
+{c:0,r:"1:1-3",t:"ab",q:"¿Quién escribió la primera carta de Juan y qué lo autoriza para hablar de Jesús?",a:"El apóstol Juan, hijo de Zebedeo. Aunque la carta no lleva su nombre, el autor se presenta como testigo ocular: oyó, vio, contempló y palpó al Verbo de vida.",x:"La tradición de la iglesia primitiva (Ireneo, Policarpo) la atribuye a Juan. El estilo y vocabulario (luz, vida, verdad, permanecer, amor) son los mismos del Evangelio de Juan. Se cree que la escribió en Éfeso, hacia el año 85–95 d.C., ya anciano."},
+{c:0,r:"5:13",t:"om",q:"¿Cuál es el propósito principal que el mismo Juan declara para escribir esta carta?",o:["Que los creyentes sepan que tienen vida eterna","Organizar el gobierno de la iglesia","Narrar la vida y milagros de Jesús","Dar instrucciones sobre la Santa Cena"],a:"Para que sepáis que tenéis vida eterna.",x:"El Evangelio de Juan se escribió «para que creáis» (Juan 20:31); la carta se escribe para que los que ya creen tengan certeza («para que sepáis») de su salvación. Por eso la palabra «sabemos» aparece tantas veces."},
+{c:0,r:"2:19",t:"cx",q:"¿Qué problema estaba enfrentando la iglesia cuando Juan escribió la carta?",a:"Falsos maestros que habían salido de la congregación y enseñaban errores sobre Cristo (negaban que Jesús es el Cristo y que vino en carne) y sobre el pecado.",x:"Era una forma temprana de gnosticismo/docetismo: decían que la materia es mala, que Jesús no tuvo un cuerpo real y que el conocimiento espiritual importaba más que la conducta. Juan responde con tres pruebas: creer correctamente en Cristo, obedecer sus mandamientos y amar a los hermanos."},
+{c:0,r:"2:3-4",t:"ab",q:"Menciona las tres «pruebas» de la fe verdadera que Juan repite a lo largo de la carta.",a:"1) Prueba moral: obedecer sus mandamientos / practicar la justicia. 2) Prueba social: amar a los hermanos. 3) Prueba doctrinal: creer que Jesús es el Cristo, el Hijo de Dios venido en carne.",x:"Juan va alternando estos tres temas en espiral: 2:3-6 (obediencia), 2:9-11 (amor), 2:22-23 (doctrina), y vuelve a ellos en los capítulos 3, 4 y 5. Quien dice conocer a Dios pero falla en estas pruebas, «miente»."},
+{c:0,r:"2:6",t:"om",q:"¿Cuál de estas palabras es una de las más repetidas y características de 1 Juan?",o:["Permanecer","Circuncisión","Sacrificio de animales","Templo"],a:"Permanecer.",x:"«Permanecer» (gr. ménō) aparece más de 20 veces en la carta. Describe una relación estable y continua con Dios: permanecer en él, en la luz, en el amor; y que su palabra y su unción permanezcan en nosotros."},
+{c:0,r:"2:1",t:"vf",q:"Verdadero o falso: Juan llama con frecuencia a sus lectores «hijitos».",o:["Verdadero","Falso"],a:"Verdadero.",x:"Usa «hijitos» y «hijitos míos» varias veces (2:1, 2:12, 2:18, 2:28, 3:7, 3:18, 4:4, 5:21). Muestra el cariño paternal de un apóstol anciano hacia la iglesia."},
+
+// ── Capítulo 1 ──
+{c:1,r:"1:1",t:"om",q:"¿A quién se refiere Juan como «el Verbo de vida»?",o:["A Jesucristo","A Moisés","A Juan el Bautista","Al apóstol Pedro"],a:"A Jesucristo.",x:"Juan comienza igual que su Evangelio («En el principio era el Verbo», Juan 1:1). «Verbo» (gr. Lógos) significa Palabra: Jesús es la expresión perfecta de Dios y la fuente de la vida."},
+{c:1,r:"1:1",t:"ab",q:"¿Con qué sentidos dice Juan que conoció al Verbo de vida?",a:"Lo oyeron, lo vieron con sus ojos, lo contemplaron y lo palparon con sus manos.",x:"Juan enumera oído, vista y tacto para subrayar que su testimonio es de primera mano y que Jesús fue un hombre real de carne y hueso."},
+{c:1,r:"1:1-2",t:"cx",q:"¿Por qué Juan insiste en «palparon nuestras manos»? ¿Qué quiere decir?",a:"Que Jesús tuvo un cuerpo físico real; no fue un fantasma ni una apariencia. Juan refuta a quienes negaban la encarnación.",x:"Los docetas enseñaban que Cristo solo «parecía» tener cuerpo. Juan, que se recostó en el pecho de Jesús y vio sus heridas resucitado, afirma: lo tocamos. La encarnación es el fundamento del mensaje."},
+{c:1,r:"1:2",t:"ab",q:"Según 1:2, ¿dónde estaba la vida eterna antes de manifestarse?",a:"Estaba con el Padre, y se nos manifestó.",x:"Afirma la preexistencia de Cristo: la Vida eterna existía con el Padre antes de hacerse visible en la historia."},
+{c:1,r:"1:3",t:"om",q:"¿Con qué propósito anuncia Juan lo que han visto y oído?",o:["Para que tengan comunión con ellos, con el Padre y con su Hijo Jesucristo","Para que lo nombren obispo","Para que guarden el sábado","Para que se separen del mundo físicamente"],a:"Para que también vosotros tengáis comunión con nosotros; y nuestra comunión verdaderamente es con el Padre, y con su Hijo Jesucristo.",x:"«Comunión» (gr. koinonía) es participación compartida. El anuncio del evangelio une a los creyentes entre sí y con Dios mismo."},
+{c:1,r:"1:4",t:"co",q:"Completa: «Estas cosas os escribimos, para que vuestro ______ sea cumplido.»",a:"gozo",x:"El gozo completo es fruto de la comunión con Dios y con los hermanos (comp. Juan 15:11)."},
+{c:1,r:"1:5",t:"om",q:"¿Cuál es el mensaje que Juan dice haber oído de él?",o:["Dios es luz, y no hay ningunas tinieblas en él","Dios es fuego consumidor","Dios es juez de vivos y muertos","Dios es Espíritu"],a:"Dios es luz, y no hay ningunas tinieblas en él.",x:"La luz representa santidad, pureza y verdad. En Dios no hay ninguna mezcla de mal. Esto sienta la base: quien tiene comunión con Dios no puede vivir en tinieblas."},
+{c:1,r:"1:5",t:"dd",q:"¿Dónde dice: «Dios es luz, y no hay ningunas tinieblas en él»?",a:"1 Juan 1:5.",x:"Es una de las tres grandes definiciones de Dios en los escritos de Juan: Dios es luz (1 Jn 1:5), Dios es amor (1 Jn 4:8, 16) y Dios es Espíritu (Juan 4:24)."},
+{c:1,r:"1:6",t:"vf",q:"Verdadero o falso: «Si decimos que tenemos comunión con él y andamos en tinieblas, aun así practicamos la verdad.»",o:["Falso","Verdadero"],a:"Falso. Si decimos eso, mentimos y no practicamos la verdad.",x:"Es la primera de tres afirmaciones falsas («Si decimos…») que Juan desmiente. No se puede decir que se conoce a Dios y vivir habitualmente en el pecado."},
+{c:1,r:"1:7",t:"ab",q:"¿Qué nos limpia de todo pecado?",a:"La sangre de Jesucristo su Hijo.",x:"La sangre representa la muerte sacrificial de Cristo. El verbo «limpia» está en presente continuo: sigue limpiando al creyente que anda en luz."},
+{c:1,r:"1:7",t:"cx",q:"¿Qué quiere decir Juan con «andar en luz»?",a:"Vivir abiertamente delante de Dios, en sinceridad, sin esconder el pecado, de acuerdo con su verdad y santidad. No significa ser perfecto, sino vivir en transparencia ante él.",x:"El versículo une tres resultados: comunión unos con otros y limpieza continua por la sangre de Cristo. Quien anda en luz reconoce su pecado, por eso el v. 8-9 habla enseguida de confesar."},
+{c:1,r:"1:8",t:"om",q:"Si decimos que no tenemos pecado, ¿qué sucede?",o:["Nos engañamos a nosotros mismos, y la verdad no está en nosotros","Dios nos declara perfectos","Recibimos la unción del Santo","Tenemos comunión con los apóstoles"],a:"Nos engañamos a nosotros mismos, y la verdad no está en nosotros.",x:"Segunda afirmación falsa: negar que se tiene una naturaleza pecaminosa. Algunos falsos maestros decían estar por encima del pecado."},
+{c:1,r:"1:9",t:"co",q:"Completa: «Si confesamos nuestros pecados, él es ______ y ______ para perdonar nuestros pecados, y limpiarnos de toda maldad.»",a:"fiel y justo",x:"Dios es FIEL porque cumple su promesa de perdonar, y JUSTO porque el pecado ya fue pagado por la sangre de Cristo; no pasa por alto el pecado, lo perdona con base en la cruz."},
+{c:1,r:"1:9",t:"ab",q:"¿Qué dos cosas hace Dios cuando confesamos nuestros pecados?",a:"Nos perdona nuestros pecados y nos limpia de toda maldad.",x:"«Confesar» (gr. homologéō) es «decir lo mismo» que Dios dice sobre el pecado: reconocerlo sin excusas. El perdón quita la culpa; la limpieza quita la mancha."},
+{c:1,r:"1:10",t:"vf",q:"Verdadero o falso: «Si decimos que no hemos pecado, le hacemos a él mentiroso.»",o:["Verdadero","Falso"],a:"Verdadero. Y su palabra no está en nosotros.",x:"Tercera afirmación falsa: negar haber cometido pecados. Como Dios ha declarado que todos pecaron (Romanos 3:23), negarlo es contradecir a Dios."},
+{c:1,r:"1:6-10",t:"cx",q:"Juan repite «Si decimos…» tres veces en el capítulo 1. ¿Qué está haciendo con esa repetición?",a:"Está desmontando tres pretensiones de los falsos maestros: 1) tener comunión con Dios viviendo en tinieblas (v.6), 2) no tener naturaleza de pecado (v.8), 3) no haber pecado nunca (v.10). A cada error le opone la verdad.",x:"A cada «Si decimos» le sigue una respuesta positiva: andar en luz (v.7), confesar los pecados (v.9) y, en 2:1, tener a Cristo como abogado."},
+
+// ── Capítulo 2 ──
+{c:2,r:"2:1",t:"ab",q:"¿Para qué escribe Juan «estas cosas» según 2:1?",a:"Para que no pequéis.",x:"Después de hablar del perdón (1:9), Juan aclara que el perdón no es licencia para pecar. El objetivo es no pecar; pero si alguno peca, hay provisión."},
+{c:2,r:"2:1",t:"om",q:"Si alguno peca, ¿a quién tenemos como abogado para con el Padre?",o:["A Jesucristo el justo","Al apóstol Juan","A los ángeles","A la iglesia"],a:"A Jesucristo el justo.",x:"«Abogado» (gr. paráklētos) es el que es llamado al lado para defender. Cristo intercede ante el Padre por el creyente que peca, y es «el justo»: su defensa se basa en su propia justicia y sacrificio."},
+{c:2,r:"2:2",t:"co",q:"Completa: «Y él es la ______ por nuestros pecados; y no solamente por los nuestros, sino también por los de todo el mundo.»",a:"propiciación",x:"Propiciación es el sacrificio que satisface la justicia de Dios y quita su ira contra el pecado. Cristo es a la vez el abogado y el pago."},
+{c:2,r:"2:2",t:"cx",q:"¿Qué quiere decir que Cristo es la propiciación «también por los de todo el mundo»?",a:"Que el sacrificio de Cristo no está limitado a un grupo étnico o a la congregación de Juan; es suficiente y está disponible para personas de todo el mundo, judíos y gentiles.",x:"Juan amplía la perspectiva: la obra de Cristo tiene alcance universal en su suficiencia, aunque sus beneficios se reciben por la fe (5:12)."},
+{c:2,r:"2:3",t:"ab",q:"¿Cómo sabemos que conocemos a Dios, según 2:3?",a:"Si guardamos sus mandamientos.",x:"Primera «prueba» de la carta: la obediencia. Conocer a Dios no es solo información, es una relación que transforma la conducta."},
+{c:2,r:"2:4",t:"vf",q:"Verdadero o falso: «El que dice: Yo le conozco, y no guarda sus mandamientos, el tal es mentiroso.»",o:["Verdadero","Falso"],a:"Verdadero. Y la verdad no está en él.",x:"Juan es directo: la profesión de fe sin obediencia es falsa."},
+{c:2,r:"2:5",t:"ab",q:"¿En quién se ha perfeccionado verdaderamente el amor de Dios?",a:"En el que guarda su palabra.",x:"«Perfeccionado» significa llegado a su meta o madurez. El amor de Dios logra su propósito cuando produce obediencia."},
+{c:2,r:"2:6",t:"co",q:"Completa: «El que dice que permanece en él, debe ______ como él anduvo.»",a:"andar",x:"Jesús es el modelo de conducta. «Andar» describe el estilo de vida diario."},
+{c:2,r:"2:7-8",t:"cx",q:"Juan dice que no escribe un mandamiento nuevo sino antiguo, y luego dice que sí es nuevo. ¿Cómo se explica?",a:"Es el mandamiento del amor. Es ANTIGUO porque lo tenían desde el principio de su fe (y ya estaba en la Ley, Lev. 19:18). Es NUEVO porque Cristo le dio una medida nueva (amar como él nos amó, Juan 13:34) y porque con él la luz verdadera ya alumbra.",x:"«Las tinieblas van pasando, y la luz verdadera ya alumbra»: con Cristo comenzó una nueva era; el amor es la señal de esa era."},
+{c:2,r:"2:9",t:"om",q:"¿Dónde está el que dice estar en la luz pero aborrece a su hermano?",o:["Todavía en tinieblas","En la luz","En comunión con Dios","En el último tiempo"],a:"Está todavía en tinieblas.",x:"Segunda «prueba»: el amor fraternal. Odiar al hermano demuestra que no se ha salido realmente de las tinieblas."},
+{c:2,r:"2:10",t:"ab",q:"¿Qué dice Juan del que ama a su hermano?",a:"Permanece en la luz, y en él no hay tropiezo.",x:"«Tropiezo» (gr. skándalon) puede ser algo que me hace caer a mí o algo con lo que hago caer a otros. El amor evita ambas cosas."},
+{c:2,r:"2:11",t:"ab",q:"¿Qué le hacen las tinieblas al que aborrece a su hermano?",a:"Le han cegado los ojos; anda en tinieblas y no sabe a dónde va.",x:"El odio produce ceguera espiritual: la persona pierde el rumbo sin darse cuenta."},
+{c:2,r:"2:12-14",t:"om",q:"¿A qué tres grupos se dirige Juan en 2:12-14?",o:["Hijitos, padres y jóvenes","Ancianos, diáconos y obispos","Judíos, griegos y romanos","Apóstoles, profetas y maestros"],a:"Hijitos, padres y jóvenes.",x:"Puede referirse a etapas de madurez espiritual, o bien «hijitos» a toda la iglesia y luego dos subgrupos (padres y jóvenes)."},
+{c:2,r:"2:12",t:"ab",q:"¿Por qué escribe Juan a los «hijitos» en 2:12?",a:"Porque sus pecados les han sido perdonados por su nombre.",x:"La base de toda la vida cristiana es el perdón recibido por el nombre (la persona y obra) de Cristo."},
+{c:2,r:"2:13",t:"ab",q:"¿Por qué escribe Juan a los «padres»?",a:"Porque conocen al que es desde el principio.",x:"Los «padres» representan a los maduros en la fe: su característica es un conocimiento profundo y prolongado de Cristo, el eterno."},
+{c:2,r:"2:14",t:"ab",q:"¿Qué tres cosas dice Juan de los «jóvenes» en 2:14?",a:"Son fuertes, la palabra de Dios permanece en ellos, y han vencido al maligno.",x:"La victoria de los jóvenes sobre el maligno viene de la Palabra que permanece en ellos (comp. Jesús venciendo la tentación con «escrito está»)."},
+{c:2,r:"2:15",t:"co",q:"Completa: «No améis al ______, ni las cosas que están en el ______. Si alguno ama al ______, el amor del Padre no está en él.»",a:"mundo (las tres veces)",x:"Aquí «mundo» no es la creación ni las personas (Dios amó al mundo, Juan 3:16), sino el sistema de valores que funciona sin Dios y en contra de él."},
+{c:2,r:"2:16",t:"om",q:"Según 2:16, ¿qué es «todo lo que hay en el mundo»?",o:["Los deseos de la carne, los deseos de los ojos y la vanagloria de la vida","La riqueza, la fama y el poder","La idolatría, la hechicería y la fornicación","El odio, la mentira y el homicidio"],a:"Los deseos de la carne, los deseos de los ojos, y la vanagloria de la vida.",x:"Deseos de la carne = apetitos desordenados del cuerpo. Deseos de los ojos = codicia por lo que se ve. Vanagloria de la vida = orgullo por lo que se tiene o se es. Son las mismas áreas de la tentación de Eva (Gn 3:6) y de Jesús en el desierto."},
+{c:2,r:"2:17",t:"vf",q:"Verdadero o falso: «El mundo pasa, y sus deseos; pero el que hace la voluntad de Dios permanece para siempre.»",o:["Verdadero","Falso"],a:"Verdadero.",x:"Razón para no amar al mundo: es temporal. Quien hace la voluntad de Dios participa de lo eterno."},
+{c:2,r:"2:18",t:"ab",q:"¿Cómo sabían los lectores que era «el último tiempo»?",a:"Porque habían surgido muchos anticristos.",x:"Para el Nuevo Testamento, los «últimos tiempos» comenzaron con la venida de Cristo. Juan distingue entre «el anticristo» que vendrá y los «muchos anticristos» ya presentes: todo el que se opone a Cristo o lo sustituye."},
+{c:2,r:"2:19",t:"cx",q:"¿Qué quiere decir: «Salieron de nosotros, pero no eran de nosotros»?",a:"Se refiere a los falsos maestros que habían estado en la congregación y luego se fueron. Su salida demostró que nunca pertenecieron de verdad a la familia de Dios; si hubieran sido verdaderos creyentes, habrían permanecido.",x:"Juan consuela a la iglesia: la partida de estos líderes no significa que la verdad falló; simplemente se manifestó quiénes eran."},
+{c:2,r:"2:20",t:"om",q:"¿Qué tienen los creyentes según 2:20?",o:["La unción del Santo","Una carta de recomendación","El sello de los apóstoles","La herencia de Abraham"],a:"La unción del Santo, y conocen todas las cosas.",x:"La «unción» es el Espíritu Santo dado por Cristo (el Santo). Los falsos maestros presumían de un conocimiento especial; Juan dice que todo creyente tiene al Espíritu que le enseña la verdad."},
+{c:2,r:"2:22",t:"om",q:"Según Juan, ¿quién es el mentiroso?",o:["El que niega que Jesús es el Cristo","El que no guarda el sábado","El que no ha sido bautizado","El que no ofrenda"],a:"El que niega que Jesús es el Cristo.",x:"Tercera «prueba», la doctrinal. Algunos enseñaban que «el Cristo» descendió sobre el hombre Jesús en el bautismo y lo dejó antes de la cruz (Cerinto). Juan dice: Jesús ES el Cristo."},
+{c:2,r:"2:22",t:"ab",q:"Según 2:22, ¿qué caracteriza al anticristo?",a:"Niega al Padre y al Hijo.",x:"Negar al Hijo es negar también al Padre, porque el Padre se revela en el Hijo."},
+{c:2,r:"2:23",t:"vf",q:"Verdadero o falso: Es posible tener al Padre aunque se niegue al Hijo.",o:["Falso","Verdadero"],a:"Falso. «Todo aquel que niega al Hijo, tampoco tiene al Padre. El que confiesa al Hijo, tiene también al Padre.»",x:"No hay acceso a Dios Padre sin Jesucristo (comp. Juan 14:6)."},
+{c:2,r:"2:25",t:"ab",q:"¿Cuál es la promesa que él nos hizo, según 2:25?",a:"La vida eterna.",x:"Permanecer en lo que se oyó desde el principio (el evangelio apostólico) es permanecer en el Hijo y en el Padre, y eso conduce a la vida eterna."},
+{c:2,r:"2:27",t:"cx",q:"¿Qué quiere decir: «no tenéis necesidad de que nadie os enseñe»? ¿Significa que no se necesitan maestros en la iglesia?",a:"No. Juan mismo les está enseñando. Quiere decir que no necesitan a los falsos maestros con su supuesto conocimiento superior, porque el Espíritu Santo (la unción) ya les enseña la verdad del evangelio.",x:"El contexto es «los que os engañan» (2:26). La unción confirma la enseñanza apostólica; no la reemplaza."},
+{c:2,r:"2:28",t:"ab",q:"¿Por qué debemos permanecer en él, según 2:28?",a:"Para que cuando se manifieste tengamos confianza, y en su venida no nos alejemos de él avergonzados.",x:"Primera mención clara de la segunda venida en la carta. Permanecer en Cristo da seguridad para el día de su regreso."},
+{c:2,r:"2:29",t:"co",q:"Completa: «Si sabéis que él es justo, sabed también que todo el que hace ______ es nacido de él.»",a:"justicia",x:"Se introduce el tema del nuevo nacimiento: los hijos se parecen a su Padre. Quien practica la justicia muestra que ha nacido de Dios."},
+
+// ── Capítulo 3 ──
+{c:3,r:"3:1",t:"co",q:"Completa: «Mirad cuál ______ nos ha dado el Padre, para que seamos llamados ______ de Dios.»",a:"amor · hijos",x:"«Mirad» invita a asombrarse. Ser llamados hijos de Dios no es un título vacío: «ahora somos hijos de Dios» (3:2)."},
+{c:3,r:"3:1",t:"ab",q:"¿Por qué el mundo no nos conoce?",a:"Porque no le conoció a él.",x:"Si el mundo no reconoció a Jesús, tampoco entenderá a sus hijos. El rechazo del mundo no debe sorprender al creyente."},
+{c:3,r:"3:2",t:"om",q:"¿Qué sucederá cuando él se manifieste?",o:["Seremos semejantes a él, porque le veremos tal como él es","Seremos jueces del mundo","Volveremos a nacer","Recibiremos la Ley de nuevo"],a:"Seremos semejantes a él, porque le veremos tal como él es.",x:"Esperanza futura: la transformación completa del creyente a la imagen de Cristo en su segunda venida."},
+{c:3,r:"3:3",t:"ab",q:"¿Qué hace todo aquel que tiene esta esperanza en él?",a:"Se purifica a sí mismo, así como él es puro.",x:"La esperanza de ver a Cristo no produce pasividad, sino santidad práctica en el presente."},
+{c:3,r:"3:4",t:"om",q:"Según 3:4, ¿qué es el pecado?",o:["Infracción de la ley","Una enfermedad","Un error inocente","Falta de conocimiento"],a:"El pecado es infracción de la ley.",x:"Literalmente «iniquidad» o «rebeldía contra la ley» (gr. anomía). El pecado no es algo menor: es rebelión contra Dios."},
+{c:3,r:"3:5",t:"ab",q:"¿Para qué apareció Cristo, según 3:5?",a:"Para quitar nuestros pecados; y no hay pecado en él.",x:"La impecabilidad de Cristo lo califica para quitar el pecado de otros."},
+{c:3,r:"3:6, 3:9",t:"cx",q:"Juan dice que el que permanece en él «no peca» y que el nacido de Dios «no puede pecar». ¿No contradice esto 1:8 («si decimos que no tenemos pecado, nos engañamos»)?",a:"No. En el capítulo 3 Juan habla de la práctica habitual del pecado como estilo de vida (por eso la RVR1960 traduce «no practica el pecado»). El creyente puede caer en pecado (1:8-2:1), pero no vive continuamente en él, porque tiene una nueva naturaleza: la simiente de Dios.",x:"Los verbos griegos están en tiempo presente continuo: «no sigue pecando». La diferencia es entre caer y vivir revolcado."},
+{c:3,r:"3:8",t:"om",q:"¿Para qué apareció el Hijo de Dios, según 3:8?",o:["Para deshacer las obras del diablo","Para fundar un reino terrenal","Para abolir los profetas","Para juzgar a Caín"],a:"Para deshacer las obras del diablo.",x:"Cristo vino a destruir (deshacer, desatar) la obra del diablo: el pecado, la muerte y la esclavitud espiritual."},
+{c:3,r:"3:8",t:"vf",q:"Verdadero o falso: Según Juan, «el diablo peca desde el principio».",o:["Verdadero","Falso"],a:"Verdadero.",x:"El pecado se originó con el diablo. Quien practica el pecado muestra parentesco con él."},
+{c:3,r:"3:9",t:"ab",q:"¿Qué permanece en todo aquel que es nacido de Dios?",a:"La simiente de Dios.",x:"La «simiente» es la nueva vida divina implantada en el creyente (por el Espíritu y la Palabra), que lo inclina hacia la santidad."},
+{c:3,r:"3:10",t:"ab",q:"¿En qué se manifiestan los hijos de Dios y los hijos del diablo?",a:"Todo aquel que no hace justicia, y que no ama a su hermano, no es de Dios.",x:"Une dos pruebas: justicia (obediencia) y amor fraternal."},
+{c:3,r:"3:11",t:"co",q:"Completa: «Porque este es el mensaje que habéis oído desde el principio: Que nos ______ unos a otros.»",a:"amemos",x:"Así como 1:5 dio el mensaje «Dios es luz», 3:11 da el mensaje práctico: amarnos unos a otros."},
+{c:3,r:"3:12",t:"om",q:"¿Qué personaje del Antiguo Testamento usa Juan como ejemplo de lo que NO hay que ser?",o:["Caín","Esaú","Judas","Faraón"],a:"Caín, que era del maligno y mató a su hermano.",x:"Es la única cita directa del Antiguo Testamento en la carta (Génesis 4)."},
+{c:3,r:"3:12",t:"ab",q:"¿Por qué causa mató Caín a su hermano?",a:"Porque sus obras eran malas, y las de su hermano justas.",x:"La justicia de Abel expuso la maldad de Caín; el odio nace muchas veces de la envidia de la justicia ajena."},
+{c:3,r:"3:13",t:"vf",q:"Verdadero o falso: Juan dice que debemos extrañarnos si el mundo nos aborrece.",o:["Falso","Verdadero"],a:"Falso. Dice: «no os extrañéis si el mundo os aborrece».",x:"Como Caín aborreció a Abel, el mundo aborrece a los justos. Es algo esperado."},
+{c:3,r:"3:14",t:"ab",q:"¿Cómo sabemos que hemos pasado de muerte a vida?",a:"En que amamos a los hermanos.",x:"El amor no es lo que nos salva, sino la evidencia de que ya fuimos salvados. «El que no ama a su hermano, permanece en muerte.»"},
+{c:3,r:"3:15",t:"om",q:"¿Cómo llama Juan a todo aquel que aborrece a su hermano?",o:["Homicida","Mentiroso","Ladrón","Idólatra"],a:"Homicida.",x:"Eco de Jesús en Mateo 5:21-22: el odio es asesinato en el corazón. «Ningún homicida tiene vida eterna permanente en él.»"},
+{c:3,r:"3:16",t:"ab",q:"¿En qué hemos conocido el amor, y qué deber se deriva de eso?",a:"En que él puso su vida por nosotros; también nosotros debemos poner nuestras vidas por los hermanos.",x:"La cruz define el amor. Contraste con Caín: Caín quitó la vida a su hermano; Cristo dio la suya."},
+{c:3,r:"3:16",t:"dd",q:"¿Dónde dice: «En esto hemos conocido el amor, en que él puso su vida por nosotros»?",a:"1 Juan 3:16.",x:"Dato curioso para el grupo: es 1 Juan 3:16, el mismo número que Juan 3:16 («De tal manera amó Dios al mundo…»)."},
+{c:3,r:"3:17",t:"cx",q:"¿Qué enseña Juan con el ejemplo del que tiene bienes y cierra su corazón al hermano necesitado?",a:"Que el amor verdadero es práctico. Si no estamos dispuestos a compartir bienes con un hermano en necesidad, ¿cómo vamos a decir que daríamos la vida por él? El amor de Dios no mora en quien actúa así.",x:"Juan baja del ideal (dar la vida, v.16) a lo cotidiano (compartir lo que tengo, v.17)."},
+{c:3,r:"3:18",t:"co",q:"Completa: «Hijitos míos, no amemos de ______ ni de ______, sino de ______ y en ______.»",a:"palabra · lengua · hecho · verdad",x:"El amor se demuestra con acciones sinceras, no solo con palabras bonitas."},
+{c:3,r:"3:19-20",t:"ab",q:"¿Qué consuelo da Juan cuando nuestro corazón nos reprende?",a:"Que mayor que nuestro corazón es Dios, y él sabe todas las cosas.",x:"Cuando la conciencia acusa, el creyente descansa en que Dios conoce todo, incluido su amor sincero y la obra de Cristo a su favor. Dios es mejor juez que nuestro corazón."},
+{c:3,r:"3:22",t:"ab",q:"Según 3:22, ¿por qué recibimos de él cualquier cosa que pidamos?",a:"Porque guardamos sus mandamientos, y hacemos las cosas que son agradables delante de él.",x:"La oración contestada está ligada a una vida en obediencia y comunión, no a fórmulas."},
+{c:3,r:"3:23",t:"om",q:"¿Cuál es «su mandamiento» según 3:23?",o:["Que creamos en el nombre de su Hijo Jesucristo, y nos amemos unos a otros","Que ayunemos dos veces por semana","Que no comamos lo sacrificado a ídolos","Que guardemos las fiestas"],a:"Que creamos en el nombre de su Hijo Jesucristo, y nos amemos unos a otros como nos lo ha mandado.",x:"Es un solo mandamiento con dos partes inseparables: fe correcta y amor práctico."},
+{c:3,r:"3:24",t:"ab",q:"¿Por qué medio sabemos que él permanece en nosotros?",a:"Por el Espíritu que nos ha dado.",x:"Esto prepara el capítulo 4, donde Juan enseña a distinguir el Espíritu de Dios de los espíritus falsos."},
+
+// ── Capítulo 4 ──
+{c:4,r:"4:1",t:"om",q:"¿Qué manda Juan hacer con los espíritus?",o:["Probad los espíritus si son de Dios","Creed a todo espíritu","Expulsadlos en el nombre de Jesús","Ignoradlos"],a:"No creáis a todo espíritu, sino probad los espíritus si son de Dios.",x:"«Espíritu» aquí se refiere a la fuente detrás de cada maestro o profeta. No todo lo que suena espiritual viene de Dios."},
+{c:4,r:"4:1",t:"ab",q:"¿Por qué hay que probar los espíritus?",a:"Porque muchos falsos profetas han salido por el mundo.",x:"El discernimiento es una responsabilidad de toda la iglesia, no solo de los líderes."},
+{c:4,r:"4:2",t:"om",q:"¿Cuál es la prueba para reconocer el Espíritu de Dios según 4:2?",o:["Que confiesa que Jesucristo ha venido en carne","Que hace milagros","Que habla en lenguas","Que tiene muchos seguidores"],a:"Todo espíritu que confiesa que Jesucristo ha venido en carne, es de Dios.",x:"La prueba no es el poder ni la popularidad, sino la doctrina sobre Cristo: su encarnación real."},
+{c:4,r:"4:2-3",t:"cx",q:"¿Por qué era tan importante confesar que Jesucristo «ha venido en carne»?",a:"Porque los falsos maestros negaban que el Hijo de Dios se hubiera hecho verdadero hombre. Si Jesús no tuvo cuerpo real, no murió realmente ni derramó sangre, y no habría expiación. Negar la encarnación es «el espíritu del anticristo».",x:"Es la misma preocupación de 1:1 («palparon nuestras manos») y de 5:6 («agua y sangre»)."},
+{c:4,r:"4:4",t:"co",q:"Completa: «Hijitos, vosotros sois de Dios, y los habéis vencido; porque ______ es el que está en vosotros, que el que está en el mundo.»",a:"mayor",x:"Uno de los versículos de mayor ánimo de la carta."},
+{c:4,r:"4:4",t:"cx",q:"¿Quién es «el que está en vosotros» y quién es «el que está en el mundo»?",a:"El que está en vosotros es Dios por medio de su Espíritu Santo. El que está en el mundo es el diablo, que obra mediante el espíritu del anticristo y los falsos profetas.",x:"La victoria del creyente sobre el error no depende de su propia fuerza sino de quien mora en él."},
+{c:4,r:"4:5",t:"vf",q:"Verdadero o falso: Juan dice de los falsos profetas que «son del mundo; por eso hablan del mundo, y el mundo los oye».",o:["Verdadero","Falso"],a:"Verdadero.",x:"La popularidad no es prueba de verdad: el mundo escucha con gusto a quienes hablan su mismo idioma."},
+{c:4,r:"4:6",t:"ab",q:"¿Qué dos espíritus aprendemos a distinguir en 4:6?",a:"El espíritu de verdad y el espíritu de error.",x:"El criterio: «el que conoce a Dios, nos oye» — es decir, acepta la enseñanza apostólica."},
+{c:4,r:"4:7",t:"ab",q:"Según 4:7, ¿qué se dice de todo aquel que ama?",a:"Es nacido de Dios, y conoce a Dios.",x:"Porque el amor es de Dios: su origen está en él."},
+{c:4,r:"4:8",t:"co",q:"Completa: «El que no ama, no ha conocido a Dios; porque Dios es ______.»",a:"amor",x:"No dice solo que Dios ama, sino que Dios ES amor: el amor es parte de su naturaleza esencial."},
+{c:4,r:"4:8, 4:16",t:"dd",q:"¿En qué versículos de 1 Juan aparece la frase «Dios es amor»?",a:"1 Juan 4:8 y 1 Juan 4:16.",x:"Son las dos únicas veces en toda la Biblia con esa frase exacta."},
+{c:4,r:"4:9",t:"om",q:"¿En qué se mostró el amor de Dios para con nosotros?",o:["En que envió a su Hijo unigénito al mundo, para que vivamos por él","En que nos dio la Ley","En que nos libró de Egipto","En que nos dio riquezas"],a:"En que Dios envió a su Hijo unigénito al mundo, para que vivamos por él.",x:"«Unigénito» (gr. monogenés) significa único en su clase. Paralelo directo de Juan 3:16."},
+{c:4,r:"4:10",t:"cx",q:"¿En qué consiste el amor según 4:10? Explica la idea.",a:"No en que nosotros hayamos amado a Dios, sino en que él nos amó a nosotros y envió a su Hijo en propiciación por nuestros pecados. El amor verdadero tiene su origen en Dios, no en nosotros, y se demostró en la cruz.",x:"El amor bíblico no es primero un sentimiento humano, sino la iniciativa de Dios de salvarnos."},
+{c:4,r:"4:11",t:"ab",q:"¿Qué conclusión saca Juan en 4:11 del amor de Dios?",a:"Si Dios nos ha amado así, debemos también nosotros amarnos unos a otros.",x:"El amor recibido se convierte en deuda de amor hacia los demás."},
+{c:4,r:"4:12",t:"vf",q:"Verdadero o falso: Juan afirma que algunos profetas han visto a Dios.",o:["Falso","Verdadero"],a:"Falso. «Nadie ha visto jamás a Dios.»",x:"Aunque nadie ve a Dios, cuando nos amamos unos a otros, Dios se hace «visible» en la comunidad: permanece en nosotros y su amor se perfecciona."},
+{c:4,r:"4:13",t:"ab",q:"¿En qué conocemos que permanecemos en él y él en nosotros (4:13)?",a:"En que nos ha dado de su Espíritu.",x:"El Espíritu Santo es la garantía interna de la relación con Dios."},
+{c:4,r:"4:14",t:"om",q:"¿Con qué título presenta Juan al Hijo en 4:14?",o:["El Salvador del mundo","El Rey de Israel","El Profeta","El Hijo de David"],a:"El Salvador del mundo.",x:"Los samaritanos usaron el mismo título en Juan 4:42."},
+{c:4,r:"4:15",t:"ab",q:"¿Qué pasa con todo aquel que confiesa que Jesús es el Hijo de Dios?",a:"Dios permanece en él, y él en Dios.",x:"La confesión correcta de Cristo es evidencia de la unión con Dios."},
+{c:4,r:"4:17",t:"ab",q:"¿Para qué se ha perfeccionado el amor en nosotros, según 4:17?",a:"Para que tengamos confianza en el día del juicio.",x:"«Pues como él es, así somos nosotros en este mundo»: unidos a Cristo, el creyente no teme el juicio."},
+{c:4,r:"4:18",t:"co",q:"Completa: «En el amor no hay ______, sino que el perfecto amor echa fuera el ______.»",a:"temor (las dos veces)",x:"Se refiere al miedo al castigo o condenación de Dios. Quien conoce el amor de Dios no vive aterrado de él."},
+{c:4,r:"4:18",t:"cx",q:"¿Qué quiere decir que «el temor lleva en sí castigo»? ¿Se contradice con «el temor de Jehová»?",a:"Se refiere al miedo de ser castigado/condenado. No contradice el «temor de Jehová» del AT, que es reverencia y respeto. El creyente reverencia a Dios, pero no le tiene pánico, porque su amor lo ha perdonado.",x:"El que todavía vive con miedo a la condenación «no ha sido perfeccionado en el amor»: no ha comprendido aún plenamente el amor de Dios."},
+{c:4,r:"4:19",t:"co",q:"Completa: «Nosotros le amamos a él, porque él nos amó ______.»",a:"primero",x:"Nuestro amor siempre es respuesta al amor de Dios."},
+{c:4,r:"4:20",t:"om",q:"Si alguno dice «Yo amo a Dios» y aborrece a su hermano, ¿qué es?",o:["Mentiroso","Débil en la fe","Nuevo creyente","Fariseo"],a:"Es mentiroso.",x:"Juan no suaviza: es imposible amar a Dios y odiar al hermano."},
+{c:4,r:"4:20",t:"cx",q:"Explica el argumento de Juan: «el que no ama a su hermano a quien ha visto, ¿cómo puede amar a Dios a quien no ha visto?»",a:"Es un argumento de lo menor a lo mayor: amar a alguien visible y cercano es más fácil que amar a un Dios invisible. Si fallo en lo más fácil, no puedo pretender cumplir lo más difícil.",x:"El hermano es la «prueba visible» de mi amor invisible por Dios."},
+{c:4,r:"4:21",t:"ab",q:"¿Cuál es el mandamiento de 4:21?",a:"El que ama a Dios, ame también a su hermano.",x:"Resume los dos grandes mandamientos (Mateo 22:37-39) en una sola frase."},
+
+// ── Capítulo 5 ──
+{c:5,r:"5:1",t:"om",q:"Según 5:1, ¿quién es nacido de Dios?",o:["Todo aquel que cree que Jesús es el Cristo","Todo aquel que es descendiente de Abraham","Todo aquel que es bautizado","Todo aquel que hace buenas obras"],a:"Todo aquel que cree que Jesús es el Cristo.",x:"Y quien ama al Padre («al que engendró») ama también a sus hijos («al que ha sido engendrado por él»)."},
+{c:5,r:"5:2",t:"ab",q:"¿Cómo conocemos que amamos a los hijos de Dios?",a:"Cuando amamos a Dios, y guardamos sus mandamientos.",x:"Juan entrelaza las tres pruebas: amor a Dios, amor a los hijos de Dios y obediencia."},
+{c:5,r:"5:3",t:"vf",q:"Verdadero o falso: Juan dice que los mandamientos de Dios son gravosos.",o:["Falso","Verdadero"],a:"Falso. «Sus mandamientos no son gravosos.»",x:"«Gravosos» = pesados, opresivos. Para el que ha nacido de Dios, obedecer no es una carga aplastante porque tiene una nueva naturaleza y el poder para vencer (5:4)."},
+{c:5,r:"5:4",t:"co",q:"Completa: «Y esta es la victoria que ha vencido al mundo, nuestra ______.»",a:"fe",x:"La victoria sobre el mundo no es por fuerza humana, sino por fe en Cristo, quien ya venció al mundo (Juan 16:33)."},
+{c:5,r:"5:5",t:"ab",q:"¿Quién es el que vence al mundo?",a:"El que cree que Jesús es el Hijo de Dios.",x:"La identidad de Jesús es el centro de la victoria cristiana."},
+{c:5,r:"5:6",t:"om",q:"Según 5:6, ¿mediante qué vino Jesucristo?",o:["Mediante agua y sangre","Mediante fuego y viento","Mediante pan y vino","Mediante aceite y agua"],a:"Mediante agua y sangre; no mediante agua solamente, sino mediante agua y sangre.",x:"Ver la siguiente pregunta de contexto."},
+{c:5,r:"5:6",t:"cx",q:"¿Qué significa que Jesús vino «mediante agua y sangre; no mediante agua solamente»?",a:"La interpretación más aceptada: el AGUA es su bautismo (inicio de su ministerio) y la SANGRE es su muerte en la cruz. Juan corrige a quienes decían que «el Cristo» vino sobre Jesús en el bautismo pero lo dejó antes de morir. Juan afirma: el mismo Jesucristo fue bautizado Y murió.",x:"Otros ven también una alusión al agua y la sangre que salieron de su costado (Juan 19:34), que el mismo Juan presenció."},
+{c:5,r:"5:7",t:"om",q:"Según la Reina-Valera 1960, ¿quiénes dan testimonio en el cielo?",o:["El Padre, el Verbo y el Espíritu Santo","Moisés, Elías y Juan","Los ángeles, los profetas y los apóstoles","El agua, la sangre y el Espíritu"],a:"El Padre, el Verbo y el Espíritu Santo; y estos tres son uno.",x:"Nota para el evaluador: esta frase (llamada «coma joánica») está en la RVR1960, pero no aparece en la mayoría de los manuscritos griegos más antiguos, por eso otras versiones la omiten o la ponen en nota. La doctrina de la Trinidad se sostiene con muchos otros textos."},
+{c:5,r:"5:8",t:"ab",q:"¿Cuáles son los tres que dan testimonio en la tierra?",a:"El Espíritu, el agua y la sangre; y estos tres concuerdan.",x:"En la ley se requerían dos o tres testigos (Dt 19:15). Juan presenta tres testigos que coinciden sobre Jesús."},
+{c:5,r:"5:9",t:"ab",q:"¿Qué testimonio es mayor que el de los hombres?",a:"El testimonio de Dios, con que Dios ha testificado acerca de su Hijo.",x:"Si aceptamos testimonios humanos en tribunales y en la vida diaria, con más razón debemos creer el de Dios."},
+{c:5,r:"5:10",t:"vf",q:"Verdadero o falso: El que no cree a Dios, le ha hecho mentiroso.",o:["Verdadero","Falso"],a:"Verdadero. Porque no ha creído en el testimonio que Dios ha dado acerca de su Hijo.",x:"La incredulidad no es neutral: equivale a llamar mentiroso a Dios."},
+{c:5,r:"5:11",t:"om",q:"Según 5:11, ¿cuál es «el testimonio»?",o:["Que Dios nos ha dado vida eterna, y esta vida está en su Hijo","Que Juan vio a Jesús resucitado","Que la Ley es santa","Que el mundo pasa"],a:"Que Dios nos ha dado vida eterna; y esta vida está en su Hijo.",x:"La vida eterna no es algo separado de Jesús: está en él."},
+{c:5,r:"5:12",t:"co",q:"Completa: «El que tiene al ______, tiene la ______; el que no tiene al Hijo de Dios no tiene la vida.»",a:"Hijo · vida",x:"Versículo clave de certeza y de evangelismo: la vida eterna depende de tener a Cristo."},
+{c:5,r:"5:13",t:"dd",q:"¿Dónde dice Juan: «para que sepáis que tenéis vida eterna»?",a:"1 Juan 5:13.",x:"Es el versículo «propósito» de toda la carta (comp. Juan 20:31 para el Evangelio)."},
+{c:5,r:"5:14",t:"ab",q:"¿Cuál es la condición para que Dios nos oiga cuando pedimos?",a:"Que pidamos alguna cosa conforme a su voluntad.",x:"La oración no es imponer nuestra voluntad a Dios, sino alinearnos con la suya."},
+{c:5,r:"5:15",t:"ab",q:"Si sabemos que él nos oye, ¿qué más sabemos según 5:15?",a:"Que tenemos las peticiones que le hayamos hecho.",x:"Certeza en la oración: lo pedido conforme a su voluntad está concedido, aunque se vea después."},
+{c:5,r:"5:16-17",t:"cx",q:"¿Qué es el «pecado de muerte» del que habla Juan en 5:16?",a:"Juan no lo define con precisión. Las interpretaciones principales son: 1) el rechazo deliberado y persistente de Cristo, como el de los falsos maestros que apostataron; 2) un pecado que Dios disciplina con la muerte física (comp. Ananías y Safira, Hch 5; 1 Co 11:30). Lo claro es que la mayoría de los pecados no son «de muerte» y debemos orar por el hermano que peca.",x:"El énfasis de Juan está en interceder por el hermano. Él no prohíbe orar en el otro caso; solo dice que no lo manda."},
+{c:5,r:"5:17",t:"vf",q:"Verdadero o falso: «Toda injusticia es pecado; pero hay pecado no de muerte.»",o:["Verdadero","Falso"],a:"Verdadero.",x:"Juan equilibra: no hay que tomar a la ligera ningún pecado, pero tampoco perder la esperanza por el hermano que cae."},
+{c:5,r:"5:18",t:"ab",q:"Según 5:18, ¿quién guarda al que ha nacido de Dios?",a:"Aquel que fue engendrado por Dios (Jesucristo) le guarda, y el maligno no le toca.",x:"La seguridad del creyente no depende de sí mismo sino de Cristo, que lo protege."},
+{c:5,r:"5:19",t:"om",q:"Según 5:19, ¿bajo quién está el mundo entero?",o:["Bajo el maligno","Bajo los romanos","Bajo la Ley","Bajo los ángeles"],a:"El mundo entero está bajo el maligno.",x:"Contraste final: «somos de Dios» vs. «el mundo entero está bajo el maligno»."},
+{c:5,r:"5:20",t:"ab",q:"¿Qué nos ha dado el Hijo de Dios, según 5:20?",a:"Entendimiento para conocer al que es verdadero.",x:"El conocimiento verdadero no es el «conocimiento secreto» de los falsos maestros, sino conocer a Dios por medio de Jesucristo."},
+{c:5,r:"5:20",t:"cx",q:"¿Qué afirmación importante hace Juan sobre Jesucristo al final de 5:20?",a:"Que Jesucristo «es el verdadero Dios, y la vida eterna». Es una declaración directa de la deidad de Cristo.",x:"La carta termina como empezó: con Jesucristo como la Vida eterna (1:2) y como verdadero Dios."},
+{c:5,r:"5:21",t:"co",q:"Completa la última frase de la carta: «Hijitos, guardaos de los ______. Amén.»",a:"ídolos",x:"Ver la siguiente pregunta de contexto."},
+{c:5,r:"5:21",t:"cx",q:"¿Por qué crees que Juan termina la carta advirtiendo contra los ídolos?",a:"Porque acaba de decir que Jesucristo es el verdadero Dios. Cualquier cosa que lo sustituya —los dioses paganos de Éfeso o un «Cristo» falso inventado por los falsos maestros— es un ídolo.",x:"Un ídolo es todo lo que ocupa el lugar del Dios verdadero en el corazón: también el dinero, el placer o la imagen personal (comp. 2:15-16)."}
+];
+
+// ── Lógica ──
+const $ = s => document.querySelector(s);
+const LET = "ABCDEFG";
+let order = Q.map((_, i) => i);
+let picked = {};
+
+Q.forEach((q, i) => { q.id = i + 1; if (q.o) q.o = seededShuffle(q.o.map((t, k) => ({t, ok: k === 0})), i + 7); });
+
+function seededShuffle(arr, seed) {
+  if (arr.length === 2) return arr.sort((a, b) => a.t === "Verdadero" ? -1 : 1);
+  let s = seed;
+  const rnd = () => (s = (s * 9301 + 49297) % 233280) / 233280;
+  for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; }
+  return arr;
+}
+
+function verses(ref) {
+  const out = [];
+  ref.split(",").forEach(part => {
+    part = part.trim();
+    let [cap, rest] = part.split(":");
+    let [a, b] = rest.split("-").map(Number);
+    for (let v = a; v <= (b || a); v++) {
+      const k = cap + ":" + v;
+      if (V[k]) out.push([v, V[k]]);
+    }
+  });
+  return out;
+}
+
+const esc = s => s.replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const norm = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+
+function card(q) {
+  const vs = verses(q.r);
+  const done = picked[q.id] !== undefined;
+  const opts = q.o ? `<div class="opts">${q.o.map((o, k) =>
+    `<button class="opt${o.ok ? " correct" : ""}${picked[q.id] === k ? " picked" : ""}" data-q="${q.id}" data-k="${k}"><span class="l">${LET[k]}</span><span>${esc(o.t)}</span></button>`).join("")}</div>` : "";
+  return `<article class="card${done ? " done" : ""}" id="q${q.id}">
+    <div class="meta"><span class="num">#${q.id}</span>
+      <span class="tag">${q.c ? "Capítulo " + q.c : "General"}</span>
+      <span class="tag">1 Juan ${q.r}</span>
+      <span class="tag t">${TIPOS[q.t]}</span></div>
+    <p class="q">${esc(q.q)}</p>
+    ${opts}
+    <button class="btn reveal" data-show="${q.id}">Mostrar respuesta</button>
+    <div class="ans">
+      <div class="box r"><h4>✔ Respuesta correcta</h4><p>${esc(q.a)}</p></div>
+      ${vs.length ? `<div class="box v"><h4>📖 1 Juan ${q.r} (RVR1960)</h4><p>${vs.map(([n, t]) => `<sup>${n}</sup>${esc(t)}`).join(" ")}</p></div>` : ""}
+      <div class="box c"><h4>💡 Contexto / explicación</h4><p>${esc(q.x)}</p></div>
+    </div>
+  </article>`;
+}
+
+function render() {
+  const s = norm($("#fSearch").value.trim()), c = $("#fCap").value, t = $("#fType").value;
+  const list = order.map(i => Q[i]).filter(q =>
+    (c === "" || String(q.c) === c) && (t === "" || q.t === t) &&
+    (!s || norm([q.q, q.a, q.x, q.r, verses(q.r).map(v => v[1]).join(" ")].join(" ")).includes(s)));
+  $("#list").innerHTML = list.length ? list.map(card).join("") : `<p class="empty">No hay preguntas con esos filtros.</p>`;
+  $("#count").textContent = `${list.length} de ${Q.length} preguntas`;
+  score();
+}
+
+function score() {
+  let ok = 0, bad = 0;
+  for (const id in picked) { if (picked[id] < 0) continue; Q[id - 1].o[picked[id]].ok ? ok++ : bad++; }
+  $("#sOk").textContent = "✔ " + ok; $("#sBad").textContent = "✘ " + bad;
+}
+
+function setMode(m) {
+  document.body.className = m;
+  $("#mEval").classList.toggle("on", m === "evaluador");
+  $("#mExam").classList.toggle("on", m === "examen");
+  const n = $("#notice");
+  n.className = "notice" + (m === "examen" ? " exam" : "");
+  n.innerHTML = m === "evaluador"
+    ? "<div><b>Modo evaluador activado</b>Estás viendo la respuesta correcta, el versículo textual (RVR1960) y el contexto de cada pregunta para dirigir la dinámica.</div>"
+    : "<div><b>Modo examen / juego</b>Las respuestas están ocultas. En opción múltiple y verdadero/falso toca una opción para calificar; en las demás pulsa «Mostrar respuesta».</div>";
+  try { localStorage.setItem("1jn-mode", m); } catch (e) {}
+}
+
+document.addEventListener("click", e => {
+  const o = e.target.closest(".opt");
+  if (o && document.body.classList.contains("examen")) {
+    const id = +o.dataset.q;
+    if (picked[id] !== undefined) return;
+    picked[id] = +o.dataset.k;
+    const el = $("#q" + id); el.outerHTML = card(Q[id - 1]); score(); return;
+  }
+  const r = e.target.closest("[data-show]");
+  if (r) { const id = +r.dataset.show; picked[id] = picked[id] ?? -1; $("#q" + id).outerHTML = card(Q[id - 1]); }
+});
+
+Object.entries(TIPOS).forEach(([k, v]) => $("#fType").insertAdjacentHTML("beforeend", `<option value="${k}">${v}</option>`));
+["#fSearch", "#fCap", "#fType"].forEach(s => $(s).addEventListener("input", render));
+$("#mEval").onclick = () => setMode("evaluador");
+$("#mExam").onclick = () => setMode("examen");
+$("#bShuffle").onclick = () => { for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; } render(); };
+$("#bOrder").onclick = () => { order = Q.map((_, i) => i); render(); };
+$("#bReset").onclick = () => { picked = {}; render(); };
+
+let saved = "evaluador"; try { saved = localStorage.getItem("1jn-mode") || saved; } catch (e) {}
+setMode(saved);
+render();
+</script>
+</body>
+</html>
