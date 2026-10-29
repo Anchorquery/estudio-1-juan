@@ -108,6 +108,16 @@ header{background:var(--surface);border-bottom:1px solid var(--line)}
 .box.v h4{color:var(--gold)}
 .box.v p{font:italic 400 16.5px/1.65 Lora,Georgia,serif}
 .box.v sup{font:700 10.5px Inter,sans-serif;color:var(--gold);margin-right:3px;font-style:normal}
+.vh{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.vh h4{margin:0}
+.vbtn{margin-left:auto;border:1px solid var(--verse-line);background:var(--surface);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:600;color:var(--gold);white-space:nowrap}
+.vbtn:disabled{opacity:.6;cursor:default}
+.vres{margin-top:10px;padding-top:10px;border-top:1px dashed var(--verse-line);font-size:13.5px}
+.vres.ok{color:var(--ok);font-weight:600}
+.vres.err{color:var(--muted)}
+.vres.diff{color:var(--bad)}
+.vres .api{margin:6px 0 0;color:var(--text);font:italic 14.5px/1.6 Lora,serif}
+.vres mark{background:var(--bad-soft);color:var(--bad);border-radius:3px;padding:0 2px;font-style:normal}
 .box.c{background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 22%,transparent)}
 .box.c h4{color:var(--accent)}
 .box.c p{font-size:14.5px}
@@ -281,7 +291,7 @@ function render() {
 
   const ans = open ? `<div class="ans">
       <div class="box r"><h4>Respuesta correcta</h4><p>${esc(q.a)}</p></div>
-      ${vs.length ? `<div class="box v"><h4>1 Juan ${q.r} · RVR1960</h4><p>${vs.map(([n, t]) => `<sup>${n}</sup>${esc(t)}`).join(" ")}</p></div>` : ""}
+      ${vs.length ? `<div class="box v"><div class="vh"><h4>1 Juan ${q.r} · RVR1960</h4><button class="vbtn" data-verify ${vcheck[q.id]?.state === "loading" ? "disabled" : ""}>${vcheck[q.id] ? "Verificar de nuevo" : "Verificar con API"}</button></div><p>${vs.map(([n, t]) => `<sup>${n}</sup>${esc(t)}`).join(" ")}</p>${verifyHtml(vcheck[q.id])}</div>` : ""}
       <div class="box c"><h4>Contexto · ¿Qué quiso decir Juan?</h4><p>${esc(q.x)}</p></div>
     </div>` : `<button class="showbtn" id="bShow">Mostrar respuesta (Espacio)</button>`;
 
@@ -290,6 +300,58 @@ function render() {
     <h2 class="q">${esc(q.q)}</h2>
     ${body}${ans}
   </article>`;
+}
+
+// Contraste con la API de bolls.life (RVR1960, libro 62 = 1 Juan)
+const vcheck = {}, apiCache = {};
+const clean = s => s.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").replace(/\s+([,;:.)?!])/g, "$1").trim();
+
+async function chapter(c) {
+  if (!apiCache[c]) apiCache[c] = fetch(`https://bolls.life/get-text/RV1960/62/${c}/`)
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(a => Object.fromEntries(a.map(v => [v.verse, clean(v.text)])))
+    .catch(e => { delete apiCache[c]; throw e; });
+  return apiCache[c];
+}
+
+async function verify(q) {
+  vcheck[q.id] = { state: "loading" }; render();
+  try {
+    const diffs = [];
+    for (const p of q.r.split(",")) {
+      const [c] = p.trim().split(":");
+      const api = await chapter(c);
+      verses(p.trim()).forEach(([n, t]) => { if (clean(t) !== api[n]) diffs.push({ n, mine: clean(t), api: api[n] || "(no encontrado)" }); });
+    }
+    vcheck[q.id] = diffs.length ? { state: "diff", diffs } : { state: "ok" };
+  } catch (e) {
+    vcheck[q.id] = { state: "err" };
+  }
+  if (list[pos] && list[pos].id === q.id) render();
+}
+
+// Marca en rojo las palabras del texto de la API que no están en el de la página
+function markDiff(mine, api) {
+  const a = mine.split(" "), b = api.split(" ");
+  const L = Array.from({ length: a.length + 1 }, () => new Array(b.length + 1).fill(0));
+  for (let i = a.length - 1; i >= 0; i--) for (let j = b.length - 1; j >= 0; j--)
+    L[i][j] = a[i] === b[j] ? L[i + 1][j + 1] + 1 : Math.max(L[i + 1][j], L[i][j + 1]);
+  const out = []; let i = 0, j = 0;
+  while (j < b.length) {
+    if (i < a.length && a[i] === b[j]) { out.push(esc(b[j])); i++; j++; }
+    else if (i < a.length && L[i + 1][j] >= L[i][j + 1]) i++;
+    else { out.push(`<mark>${esc(b[j])}</mark>`); j++; }
+  }
+  return out.join(" ");
+}
+
+function verifyHtml(v) {
+  if (!v) return "";
+  if (v.state === "loading") return `<div class="vres err">Consultando bolls.life…</div>`;
+  if (v.state === "err") return `<div class="vres err">No se pudo conectar con la API. Revisa la conexión e inténtalo de nuevo.</div>`;
+  if (v.state === "ok") return `<div class="vres ok">✔ Coincide palabra por palabra con la RVR1960 (fuente: bolls.life)</div>`;
+  return `<div class="vres diff">✘ Diferencias con la RVR1960 de bolls.life:${v.diffs.map(d =>
+    `<p class="api"><sup>${d.n}</sup>${markDiff(d.mine, d.api)}</p>`).join("")}</div>`;
 }
 
 function score() {
@@ -351,6 +413,7 @@ $("#bShuffle").onclick = () => {
 
 // Tarjeta
 $("#stage").onclick = e => {
+  if (e.target.closest("[data-verify]")) return verify(list[pos]);
   const o = e.target.closest(".opt"); if (o) return pick(+o.dataset.k);
   const j = e.target.closest("[data-j]");
   if (j) { const q = list[pos], v = j.dataset.j === "1", r = res[q.id]; return mark(q.id, r && r.ok === v ? null : { k: null, ok: v }); }
